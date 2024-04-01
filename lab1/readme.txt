@@ -14,7 +14,7 @@ Program: upisujem broj 100
 Program: upisujem broj 121
 Program: upisujem broj 144
 Primio signal SIGTERM, pospremam prije izlaska iz programa
-auto@DESKTOP-FP7KM7R:~/os-lab/lab1$ make pokreni
+$ make pokreni
 Program s PID = 1068 krenuo s radom
 Program: upisujem broj 169
 Program: upisujem broj 196
