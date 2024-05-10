@@ -34,39 +34,39 @@ int main(int argc, char *argv[])
     /* dohvati prvi broj i zapisi 0 u status */
 	broj = procitaj_status();
 	zapisi_status(0);
-    
+	
     /* stvori dretve: radnu i mreznu */
 
 	pthread_t opisnik[2];
 	int id[2];
 
-    id[0]=0;
-    id[1]=1;
+	id[0]=0;
+	id[1]=1;
 
 	if(pthread_create(&opisnik[0], NULL, obrada, &id[0]))
-    {
-        fprintf(stderr, "Ne mogu stvoriti dretvu!\n");
-        exit(1);
+	{
+		fprintf(stderr, "Ne mogu stvoriti dretvu!\n");
+		exit(1);
 	}
 
 	if(pthread_create(&opisnik[1], NULL, mreza, &id[1]))
-    {
-        fprintf(stderr, "Ne mogu stvoriti dretvu!\n");
-        exit(1);
+	{
+		fprintf(stderr, "Ne mogu stvoriti dretvu!\n");
+		exit(1);
 	}
 
-    int br_konzole;
+	int br_konzole;
 	while(nije_kraj)
-    {
+	{
 		if(scanf("%d", &br_konzole) > 0)
-        {
+		{
 			if(br_konzole > 0)
-	            broj = br_konzole;
+				broj = br_konzole;
 			else 
-                nije_kraj = 0;
+				nije_kraj = 0;
 		}
 	}
-    //cekaj na kraj dretve obrada, ali ne i one druge mrezne
+	//cekaj na kraj dretve obrada, ali ne i one druge mrezne
 	pthread_join(opisnik[0], NULL);
 
 
@@ -75,12 +75,12 @@ int main(int argc, char *argv[])
 
 void *obrada(void *p)
 {
-    /* slicno kao u lab1 */
+	/* slicno kao u lab1 */
 	int x;
 	broj = procitaj_status();
-    
+
 	if (broj == 0) 
-    {
+	{
 		broj = pronadji_zadnji_broj();
 		broj = sqrt(broj);
 	}
@@ -88,7 +88,7 @@ void *obrada(void *p)
 	zapisi_status(0);
 
 	while(nije_kraj)
-    {
+	{
 		broj = broj + 1;
 		x = broj * broj;
 		dodaj_broj(x);
@@ -104,15 +104,15 @@ void *obrada(void *p)
 
 void *mreza(void *p)
 {
-    //u petlji cekaj da se nesto pojavi u cijevi
+	//u petlji cekaj da se nesto pojavi u cijevi
 	//ako je procitano > 0 onda ga postavi u broj
-    int br_mrez;
+	int br_mrez;
 	while(nije_kraj){
-        br_mrez = dohvati_iz_cijevi();
-        if(br_mrez>0){
-            broj = br_mrez;
-            printf("Procitan broj iz cijevi: %d\n", broj);
-       	 }
+		br_mrez = dohvati_iz_cijevi();
+		if(br_mrez>0){
+			broj = br_mrez;
+			printf("Procitan broj iz cijevi: %d\n", broj);
+		}
 	}
 	return NULL;
 }

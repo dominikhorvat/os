@@ -76,4 +76,4 @@ Program: upisujem broj 49
 Program: upisujem broj 121
 Program: upisujem broj 144
 ^CPrimio signal SIGINT, prekidam rad
-make: *** [Makefile:26: pokreni] Error 1
+make: *** [Makefile:26: pokreni] Error 1 

@@ -12,8 +12,8 @@ int procitaj_status()
 	FILE *fp;
 	fp = fopen(dat_status, "r");
 	
-    if (!fp) 
-    {
+	if (!fp) 
+	{
 		printf("Ne mogu otvoriti %s\n", dat_status);
 		exit(1);
 	}
@@ -21,7 +21,7 @@ int procitaj_status()
     int broj;
 
 	if (fscanf(fp, "%d", &broj) != 1) 
-    {
+	{
 		printf("Nije procitan broj iz %s!\n", dat_status);
 		exit(1);
 	}
@@ -32,17 +32,17 @@ int procitaj_status()
 
 void zapisi_status(int broj) 
 {
-    FILE *fp;
+	FILE *fp;
 	fp = fopen(dat_status, "w");
 	
-    if (!fp) 
-    {
+	if (!fp) 
+	{
 		printf("Ne mogu otvoriti %s\n", dat_status);
 		exit(1);
 	}
 
 	if (fprintf(fp, "%d\n", broj) < 1) 
-    {
+	{
 		printf("Nije upisan broj u %s!\n", dat_status);
 		exit(1);
 	}
@@ -56,12 +56,12 @@ void dodaj_broj(int broj)
 
 	fp = fopen(dat_obrada, "a");
 	if (!fp) 
-    {
+	{
 		printf("Ne mogu otvoriti %s\n", dat_obrada);
 		exit(1);
 	}
 	if (fprintf(fp, "%d\n", broj) < 1) 
-    {
+	{
 		printf("Nije upisan broj u %s!\n", dat_obrada);
 		exit(1);
 	}
@@ -70,22 +70,22 @@ void dodaj_broj(int broj)
 
 int pronadji_zadnji_broj() 
 { 
-    FILE *fp;
-    fp = fopen(dat_obrada, "r");
+	FILE *fp;
+	fp = fopen(dat_obrada, "r");
 	
-    if (!fp) 
-    {
+	if (!fp) 
+	{
 		printf("Ne mogu otvoriti %s\n", dat_obrada);
 		exit(1);
 	}
 
-    int broj = -1;
+	int broj = -1;
 
 	while(!feof(fp))
 		if(fscanf(fp, "%d", &broj) != 1)
-		    break;
+			break;
 	
-    fclose(fp);
+	fclose(fp);
 	return broj;
 }
 
@@ -93,12 +93,14 @@ int dohvati_iz_cijevi()
 {
 	FILE *fp;
 	int x, y = -1;
-    fp = fopen(dat_mreza, "r");
+	fp = fopen(dat_mreza, "r");
 	
-    if (!fp) {
+	if (!fp) 
+	{
 		fprintf(stderr, "Ne mogu otvoriti cijev %s\n", dat_mreza);
 		exit(1);
 	}
+	
 	if (fscanf(fp, "%d", &x) > 0)
 		y = x;
 	fclose(fp);

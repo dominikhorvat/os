@@ -11,7 +11,7 @@
 /* implementacija funkcija, vec opisanih u lab1 + postavi_signale() */
 void postavi_signale() 
 {
-    struct sigaction act;
+	struct sigaction act;
 
 	/* 1. maskiranje signala SIGUSR1 */
 
@@ -41,18 +41,18 @@ void postavi_signale()
 
 void obradi_dogadjaj(int sig) 
 {
-    int broj = pronadji_zadnji_broj();
-    printf("Primio signal SIGUSR1, broj je %d\n",(int) sqrt(broj));
+	int broj = pronadji_zadnji_broj();
+	printf("Primio signal SIGUSR1, broj je %d\n",(int) sqrt(broj));
 }
 
 void obradi_sigterm(int sig) 
 {
-    printf("Primio signal SIGTERM, pospremam prije izlaska iz programa\n");
+	printf("Primio signal SIGTERM, pospremam prije izlaska iz programa\n");
 	nije_kraj = 0;
 }
 
 void obradi_sigint(int sig) 
 {
-    printf("Primio signal SIGINT, prekidam rad\n");
+	printf("Primio signal SIGINT, prekidam rad\n");
 	exit(1);
 }
