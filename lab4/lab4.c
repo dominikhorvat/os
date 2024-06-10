@@ -29,30 +29,34 @@ int main() {
 		fgets(naredba, 10, stdin);
         
 		if (naredba[0] == 'c') 
-        {
+		{
 			fd = otvori_datoteku(ime, ZA_CITANJE);
 			if (fd == -1)
 				continue; //poruka je vec ispisana
 			
-            /* citaj dio datoteke i ispisi ga, dok procitaj vrati nesto */
-            char *poruka = (char *)malloc(BUFFER_SIZE * sizeof(char));
-            if (poruka == NULL) {
-                fprintf(stderr, "Greska u alokaciji\n");
-                return -1;
-            }
+			/* citaj dio datoteke i ispisi ga, dok procitaj vrati nesto */
+			char *poruka = (char *)malloc(BUFFER_SIZE * sizeof(char));
+			if (poruka == NULL) {
+				fprintf(stderr, "Greska u alokaciji\n");
+				return -1;
+			}
 
-            while (1) {
-                memset(poruka, 0, BUFFER_SIZE);
-                int bytes_read = procitaj(fd, poruka, BUFFER_SIZE);
-                if (bytes_read > 0) {
-                    printf("%s", poruka);
-                } else {
-                    break;
-                }
-            }
+			while (1) {
+				memset(poruka, 0, BUFFER_SIZE);
+				int bytes_read = procitaj(fd, poruka, BUFFER_SIZE);
+				
+				if (bytes_read > 0) 
+				{
+					printf("%s", poruka);
+				} 
+				else 
+				{
+					break;
+				}
+			}
 
-            free(poruka);
-            zatvori_datoteku(fd);
+			free(poruka);
+			zatvori_datoteku(fd);
 		}
 		else if (naredba[0] == 'p') {
 			fd = otvori_datoteku(ime, ZA_PISANJE);
