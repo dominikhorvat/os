@@ -85,39 +85,38 @@ int procitaj(int id, void *p, size_t koliko)
 
 	size_t blok_datoteke = datotecna_tablica[id].kazaljka / BLOCK_SIZE;
 	size_t blok_diska = datotecna_tablica[id].blokovi[blok_datoteke];
-    size_t jos = koliko;
-    
+	size_t jos = koliko;
 
     while(jos > 0 && datotecna_tablica[id].kazaljka < datotecna_tablica[id].velicina && blok_diska >= 0)
     {
-        dohvati_blok(blok_diska, buffer);
+		dohvati_blok(blok_diska, buffer);
 		size_t kopirati;
-        /* kopirati = min(još, dat.veličina - dat.kazaljka,
-        VEL_BLOKA - dat.kazaljka % VEL_BLOKA)*/
+		/* kopirati = min(još, dat.veličina - dat.kazaljka,
+		VEL_BLOKA - dat.kazaljka % VEL_BLOKA)*/
 		
-        if(jos < (datotecna_tablica[id].velicina - datotecna_tablica[id].kazaljka))
-        {
-            if((BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE) < jos)
-                kopirati = BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE;
-            else
-                kopirati = jos;
+		if(jos < (datotecna_tablica[id].velicina - datotecna_tablica[id].kazaljka))
+		{
+			if((BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE) < jos)
+				kopirati = BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE;
+			else
+				kopirati = jos;
         }
         else
-        {
-            if((BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE) < (datotecna_tablica[id].velicina - datotecna_tablica[id].kazaljka))
-                kopirati = BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE;
-            else
-                kopirati = datotecna_tablica[id].velicina - datotecna_tablica[id].kazaljka;
-        }
+		{
+			if((BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE) < (datotecna_tablica[id].velicina - datotecna_tablica[id].kazaljka))
+				kopirati = BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE;
+			else
+				kopirati = datotecna_tablica[id].velicina - datotecna_tablica[id].kazaljka;
+		}
 
-        memcpy(p, buffer + datotecna_tablica[id].kazaljka % BLOCK_SIZE, kopirati);
+		memcpy(p, buffer + datotecna_tablica[id].kazaljka % BLOCK_SIZE, kopirati);
 
-        p =(char*)p + kopirati;
-        datotecna_tablica[id].kazaljka += kopirati;
-        jos -= kopirati;
-        blok_datoteke++;
+		p =(char*)p + kopirati;
+		datotecna_tablica[id].kazaljka += kopirati;
+		jos -= kopirati;
+		blok_datoteke++;
 		blok_diska = datotecna_tablica[id].blokovi[blok_datoteke];
-    }
+	}
 	return koliko - jos;
 }
 
@@ -134,54 +133,54 @@ int zapisi(int id, void *p, size_t koliko)
 	}
 	size_t blok_datoteke = datotecna_tablica[id].kazaljka / BLOCK_SIZE;
 	//size_t blok_diska = datotecna_tablica[id].blokovi[blok_datoteke];
-    size_t jos = koliko;
-    size_t max_vel_datoteke = BLOCK_SIZE * BLOCKS;
+	size_t jos = koliko;
+	size_t max_vel_datoteke = BLOCK_SIZE * BLOCKS;
 
-    while(jos > 0 && datotecna_tablica[id].kazaljka < max_vel_datoteke)
-    {
-        if(datotecna_tablica[id].blokovi[blok_datoteke] == -1)
-        {
-            int slobodni = 1;
-            for(int i = 0; i < BLOCKS; i++)
-            {
-                if(slobodni_blokovi[i] == 0)
-                {
-                    slobodni_blokovi[i] = 1;
-                    datotecna_tablica[id].blokovi[blok_datoteke] = i;
-                    slobodni = 0;
-                    break;
-                }
-            }
-            if(slobodni == 1)
+	while(jos > 0 && datotecna_tablica[id].kazaljka < max_vel_datoteke)
+	{
+		if(datotecna_tablica[id].blokovi[blok_datoteke] == -1)
+		{
+			int slobodni = 1;
+			for(int i = 0; i < BLOCKS; i++)
+			{
+				if(slobodni_blokovi[i] == 0)
+				{
+					slobodni_blokovi[i] = 1;
+					datotecna_tablica[id].blokovi[blok_datoteke] = i;
+					slobodni = 0;
+					break;
+				}
+			}
+			if(slobodni == 1)
 			{
 				break;
 			}
-        }
+		}
 
-        dohvati_blok(datotecna_tablica[id].blokovi[blok_datoteke], buffer);
+		dohvati_blok(datotecna_tablica[id].blokovi[blok_datoteke], buffer);
 		size_t kopirati;
-        /* kopirati = min(još, VEL_BLOKA - dat.kazaljka % VEL_BLOKA) */
-        if(jos < BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE)
+		/* kopirati = min(još, VEL_BLOKA - dat.kazaljka % VEL_BLOKA) */
+		if(jos < BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE)
 		{
-            kopirati = jos;
+			kopirati = jos;
         }
 		else
 		{
-            kopirati =  BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE;
-        }
+			kopirati =  BLOCK_SIZE - datotecna_tablica[id].kazaljka % BLOCK_SIZE;
+		}
 		memcpy(buffer + datotecna_tablica[id].kazaljka % BLOCK_SIZE, p, kopirati);
 
         pohrani_blok(datotecna_tablica[id].blokovi[blok_datoteke], buffer);
 		
 		p = (char*)p + kopirati;
-        datotecna_tablica[id].kazaljka += kopirati;
-        jos -= kopirati;
-        blok_datoteke++;
+		datotecna_tablica[id].kazaljka += kopirati;
+		jos -= kopirati;
+		blok_datoteke++;
     }
 	/* dat.veličina = max(dat.kazaljka, prethodna veličina datoteke) */
-    if(datotecna_tablica[id].velicina < datotecna_tablica[id].kazaljka)
+	if(datotecna_tablica[id].velicina < datotecna_tablica[id].kazaljka)
 	{
-    	datotecna_tablica[id].velicina = datotecna_tablica[id].kazaljka;
+		datotecna_tablica[id].velicina = datotecna_tablica[id].kazaljka;
 	}
 
 	return koliko - jos;;
